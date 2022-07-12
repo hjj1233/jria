@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { cleanObject } from "../../utils";
+import { cleanObject, useMount, useDebounced } from "../../utils";
 import { List } from "./list";
 import { SearchPanel } from "./search-panel";
 import * as qs from "qs";
@@ -12,6 +12,7 @@ export const ProjectList = () => {
   });
   const [users, setUsers] = useState([]);
   const [list, setList] = useState([]);
+  const debouncedParam = useDebounced(param, 2000);
   useEffect(() => {
     // fetch(
     //   `http://localhost:3002/projects?name=${param.name}&personId=${param.personId}`
@@ -21,21 +22,32 @@ export const ProjectList = () => {
     //   }
     // });
     fetch(
-      `http://localhost:3002/projects?${qs.stringify(cleanObject(param))}`
+      `http://localhost:3002/projects?${qs.stringify(
+        cleanObject(debouncedParam)
+      )}`
     ).then(async (response) => {
       if (response.ok) {
         setList(await response.json());
       }
     });
-  }, [param]);
+  }, [debouncedParam]);
 
-  useEffect(() => {
+  useMount(() => {
     fetch(`http://localhost:3002/users`).then(async (response) => {
       if (response.ok) {
         setUsers(await response.json());
       }
     });
-  }, []);
+  });
+  console.log("daasdsa");
+
+  // useEffect(() => {
+  //   fetch(`http://localhost:3002/users`).then(async (response) => {
+  //     if (response.ok) {
+  //       setUsers(await response.json());
+  //     }
+  //   });
+  // }, []);
   return (
     <div>
       <SearchPanel param={param} setParam={setParam} users={users} />
