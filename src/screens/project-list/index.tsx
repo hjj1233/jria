@@ -12,7 +12,7 @@ export const ProjectList = () => {
   });
   const [users, setUsers] = useState([]);
   const [list, setList] = useState([]);
-  const debouncedParam = useDebounced(param, 2000);
+  const debouncedParam = useDebounced(param, 200);
   useEffect(() => {
     // fetch(
     //   `http://localhost:3002/projects?name=${param.name}&personId=${param.personId}`
