@@ -3,6 +3,11 @@ import { useState, useEffect } from "react";
 export interface Users {
   name: string;
   id: number;
+  title: string;
+  userName: string;
+  password: string;
+  token: string;
+  organization: string;
   // personId:number
 }
 

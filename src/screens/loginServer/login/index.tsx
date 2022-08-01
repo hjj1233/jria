@@ -1,23 +1,24 @@
 import React, { FormEvent } from "react";
+import { useAuth } from "../../../context/auth-context";
 
 const LoginSerbver = () => {
-  const login = (params: { userName: string; password: string }) => {
-    fetch("http://localhost:3002/login", {
-      method: "POST",
-      headers: {
-        "Content-Typea": "application/json",
-      },
-      body: JSON.stringify(params),
-    })
-      .then(async (response) => {
-        if (response.ok) {
-          // return await response.json()
-        }
-      })
-      .catch((e) => {
-        console.log(e);
-      });
-  };
+  const { login, user } = useAuth();
+  // const login = (params:{userName:string,password:string})=>{
+  //       fetch('http://localhost:3001/login',
+  //       {
+  //         method:'POST',
+  //         headers:{
+  //           'Content-Typea':'application/json'
+  //         },
+  //         body:JSON.stringify(params)
+  //     }).then(async response=>{
+  //         if(response.ok) {
+  //           // return await response.json()
+  //         }
+  //       }).catch(e=>{
+  //         console.log(e)
+  //       })
+  // }
 
   const onList = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -31,6 +32,7 @@ const LoginSerbver = () => {
   return (
     <>
       <form onSubmit={onList}>
+        <div>{user ? `登录成功,用户名为:${user}` : null}</div>
         <div>
           <label>
             用户名：
