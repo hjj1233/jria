@@ -1,17 +1,17 @@
-import { response } from "@umijs/deps/compiled/express";
+import { useAuth } from "context/auth-context";
 import qs from "qs";
 import * as auth from "../auth-provider";
 
 const apiURl = process.env.REACT_APP_API_URL;
 
 interface Config extends RequestInit {
-  data: Object;
-  token: string;
+  data?: Object;
+  token?: string;
 }
 
 export const http = async (
   endpoint: string,
-  { data, token, headers, ...customConfigs }: Config
+  { data, token, headers, ...customConfigs }: Config = {}
 ) => {
   const config = {
     method: "GET",
@@ -32,11 +32,17 @@ export const http = async (
       window.location.reload();
       return Promise.reject({ message: "请重新登录" });
     }
-    const data = await response.json();
+    const data = await res.json();
     if (res.ok) {
       return data;
     } else {
       return Promise.reject(data);
     }
   });
+};
+
+export const useHttp = () => {
+  const { user } = useAuth();
+  return (...[endpoint, config]: Parameters<typeof http>) =>
+    http(endpoint, { ...config, token: user?.token });
 };

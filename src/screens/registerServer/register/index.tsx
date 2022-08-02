@@ -1,11 +1,9 @@
 import { Button, Form, Input } from "antd";
-import React, { FormEvent } from "react";
+import React from "react";
 import { useAuth } from "../../../context/auth-context";
 
-const LoginSerbver = () => {
-  console.log("oooooooo");
-
-  const { login, user } = useAuth();
+const RegisterSerbver = () => {
+  const { login, user, register } = useAuth();
   // const login = (params:{userName:string,password:string})=>{
   //       fetch('http://localhost:3001/login',
   //       {
@@ -24,7 +22,7 @@ const LoginSerbver = () => {
   // }
 
   const onList = (value: { username: string; password: string }) => {
-    login({ ...value });
+    register({ ...value });
   };
   return (
     <>
@@ -55,10 +53,10 @@ const LoginSerbver = () => {
           <Input type="password" placeholder="密码" />
         </Form.Item>
         <Button htmlType="submit" type="primary">
-          登录
+          注册
         </Button>
       </Form>
     </>
   );
 };
-export default LoginSerbver;
+export default RegisterSerbver;
